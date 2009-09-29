@@ -1,0 +1,48 @@
+<tomcat-config>
+    <connector>
+        <port>8080</port>
+    </connector>
+	<engine>
+		<name>default</name>
+		<defaultHost>localhost</defaultHost>
+	</engine>
+	<context>
+		<webapps>
+			<webapp>
+				<contextPath>/</contextPath>
+				<webAppDirectory>WebContent</webAppDirectory>
+			</webapp>
+		</webapps>
+		<sessionTimeout>30</sessionTimeout>
+		<welcomeFile>index.html</welcomeFile>
+		<welcomeFile>index.htm</welcomeFile>
+		<welcomeFile>index.jsp</welcomeFile>
+		<mimeMapping>html|text/html</mimeMapping>
+		<mimeMapping>htm|text/html</mimeMapping>
+		<mimeMapping>gif|image/gif</mimeMapping>
+		<mimeMapping>jpg|image/jpeg</mimeMapping>
+		<mimeMapping>png|image/png</mimeMapping>
+		<mimeMapping>js|text/javascript</mimeMapping>
+		<mimeMapping>css|text/css</mimeMapping>
+		<mimeMapping>pdf|application/pdf</mimeMapping>
+		<servlets>
+			<servlet>
+				<name>jsp</name>
+				<class>org.apache.jasper.servlet.JspServlet</class>
+				<initParameter key="fork">false</initParameter>
+				<initParameter key="xpoweredBy">false</initParameter>
+				<loadOnStartup>2</loadOnStartup>
+				<servletMapping>*.jsp</servletMapping>
+				<servletMapping>*.jspx</servletMapping>
+			</servlet>
+			<servlet>
+				<name>default</name>
+				<class>org.apache.catalina.servlets.DefaultServlet</class>
+				<initParameter key="debug">0</initParameter>
+				<initParameter key="listings">false</initParameter>
+				<loadOnStartup>1</loadOnStartup>
+				<servletMapping>/</servletMapping>
+			</servlet>
+		</servlets>
+	</context>
+</tomcat-config>
