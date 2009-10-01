@@ -11,6 +11,7 @@ public class Configuration {
 	String engineName="default";
 	String defaultHost="localhost";
 	int port=8080;
+	int stopListenerPort=8005;
 	Context context=new Context();
 	public String getEngineName() {
 		return engineName;
@@ -24,7 +25,10 @@ public class Configuration {
 	public Context getContext() {
 		return context;
 	}
-	
+	public int getStopListenerPort() {
+		return stopListenerPort;
+	}
+
 	@Override
 	public String toString() {
 		if (StringUtils.equals(System.getProperty("debug"), "true")){
