@@ -18,14 +18,16 @@ import org.apache.tomcat.config.Reader;
 /**
  * @author aknuth
  */
-public class TomcatStarter {
+public class TomcatStarter extends TomcatRunner {
 	private String CATALINA_HOME = new File(".").getAbsolutePath();
 	private static Logger logger = Logger.getLogger(TomcatStarter.class);
 	private final Configuration configuration;
 	private Embedded embedded;
+	private static TomcatStarter server;
 	
-	public TomcatStarter(File configFile) throws TransformerException {
-		configuration = Reader.readConfiguration(configFile);
+	public TomcatStarter(Configuration configuration) throws TransformerException {
+		super(configuration);
+		this.configuration=configuration;
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
@@ -142,15 +144,16 @@ public class TomcatStarter {
 	 * @throws Exception
 	 */
 	public void stopServer() {
-		if (embedded != null) {
-			try {
-				System.out.println("Shutting down MyServer...");
-				embedded.stop();
-				System.out.println("MyServer shutdown.");
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
+        if (embedded != null) {
+            try {
+                System.out.println("Shutting down MyServer...");
+                embedded.stop();
+                System.out.println("MyServer shutdown.");
+                server.notifyAll();
+            } catch (Exception e) {
+                //No need to do anything
+            }
+        }
 	}
 
 	/**
@@ -168,13 +171,19 @@ public class TomcatStarter {
 		} else {
 			logger.info("No config-file found ");
 		}
-		TomcatStarter server = new TomcatStarter(configFile);
+		Configuration configuration = Reader.readConfiguration(configFile);
+		server = new TomcatStarter(configuration);
 		logger.info("Starting Tomcat:\n"+server);
 		server.startServer();
 
-		synchronized (server) {
-			server.wait();
-		}
+        Thread thread = new Thread(server);
+        if (listenerMode){
+        	thread.start();
+        } else {
+            synchronized (server) {
+                server.wait();
+            }
+        }
 
 	}
 	
