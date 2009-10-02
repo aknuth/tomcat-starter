@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>org.apache.tomcat</groupId>
+  <artifactId>starter</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <lastUpdated>20091002221131</lastUpdated>
+  </versioning>
+</metadata>
