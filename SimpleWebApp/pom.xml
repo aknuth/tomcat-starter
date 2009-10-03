@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.embedded.tomcat</groupId>
+	<artifactId>simplewebapp</artifactId>
+	<packaging>jar</packaging>
+	<name>simplewebapp</name>
+	<version>0.1-SNAPSHOT</version>
+	<repositories>
+		<repository>
+			<id>tomcat</id>
+			<url>
+				http://tomcat-starter.googlecode.com/svn/maven-repository
+			</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.embedded.tomcat</groupId>
+			<artifactId>starter</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<reporting />
+</project>
