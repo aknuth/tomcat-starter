@@ -1,11 +1,6 @@
 package org.embedded.tomcat.launch;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -21,12 +16,7 @@ import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 
 public class TomcatLaunchShortcut implements ILaunchShortcut  {
 
@@ -37,17 +27,17 @@ public class TomcatLaunchShortcut implements ILaunchShortcut  {
 	public void launch(ISelection selection, String mode) {
 		if (selection != null && selection instanceof IStructuredSelection && !selection.isEmpty()) {
 			IProject targetProject = null;
+			IResource configFile = null;
 			Object obj = ((IStructuredSelection) selection).getFirstElement();
 			if (obj instanceof IProject) {
 				targetProject = (IProject) obj;
 			} else if (obj instanceof IResource) {
 				targetProject = ((IResource) obj).getProject();
-			} else if (obj instanceof IAdaptable) {
-				targetProject = (IProject) ((IAdaptable) obj).getAdapter(IProject.class);
+				configFile = (IFile) obj;
 			}
 
 			if (targetProject != null) {
-				launchApplication(targetProject, mode);
+				launchApplication(targetProject, mode, configFile);
 			}
 		}
 	}
@@ -55,21 +45,15 @@ public class TomcatLaunchShortcut implements ILaunchShortcut  {
 	/**
 	 * implements {@link ILaunchShortcut}
 	 */
-	public void launch(IEditorPart editor, String mode) {
-		IEditorInput input = editor.getEditorInput();
-		if (input instanceof IFileEditorInput) {
-			IProject targetProject = ((IFileEditorInput) input).getFile().getProject();
-			launchApplication(targetProject, mode);
-		}
-	}
+	public void launch(IEditorPart editor, String mode) {	}
 
 	/**
 	 * build and launch for air application.
 	 * @param targetProject
 	 */
-	private void launchApplication(IProject targetProject, String mode) {
+	private void launchApplication(IProject targetProject, String mode, IResource configFile) {
 		try {
-			ILaunchConfiguration config = getLaunchConfiguration(targetProject, mode);
+			ILaunchConfiguration config = getLaunchConfiguration(targetProject, mode, configFile);
 			DebugUITools.launch(config, mode);
 		} catch (Exception ex) {
 			Activator.logException(ex);
@@ -82,14 +66,14 @@ public class TomcatLaunchShortcut implements ILaunchShortcut  {
 	 * @return
 	 * @throws CoreException
 	 */
-	private ILaunchConfiguration getLaunchConfiguration(IProject project, String main) throws CoreException {
+	private ILaunchConfiguration getLaunchConfiguration(IProject project, String main, IResource configFile) throws CoreException {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfiguration[] configs = manager.getLaunchConfigurations();
 
 		for (int i = 0; i < configs.length; i++) {
 			String value = configs[i].getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, "");
 			if (value.equals(project.getName())) {
-				return configs[i];
+				configs[i].delete();
 			}
 		}
 
@@ -102,41 +86,13 @@ public class TomcatLaunchShortcut implements ILaunchShortcut  {
 		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, "org.embedded.tomcat.starter.TomcatStarter");
 		//wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_JRE_CONTAINER_PATH, JDK16_CONTAINER_ID);
 		//wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, "-Xmx512m -DtomcatConfig="+findConfigFile(project).getName());
-		wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, findConfigFile(project).getName());
+		if (configFile!=null){
+			wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, configFile.getName());
+		}
 		wc.setAttribute(IDebugUIConstants.ATTR_LAUNCH_IN_BACKGROUND, false);
 
 		return wc.doSave();
 	}
 
-	private File findConfigFile(IProject project) {
-		String[] prefix = {"xml"};
-		File result = null;
-		File file = null;
-		Iterator<File> iterator = FileUtils.listFiles(new File(project.getLocation().makeAbsolute().toOSString()), prefix, false).iterator();
-		while (iterator.hasNext()) {
-			file = iterator.next();
-			try {
-				String content = FileUtils.readFileToString(file);
-				if (StringUtils.contains(content, "<tomcat-config>")) {
-					result = file; 
-				}
-			} catch (IOException e) {
-				Activator.logException(e);
-			}
-		}
-		/**if (result==null){
-			RuntimeException exception = new RuntimeException("Keine valide Tomcat Konfigurationsdatei (z.B. tomcat-config.xml)");
-			openAlertDialog("Keine valide Tomcat Konfigurationsdatei (z.B. tomcat-config.xml)");
-			throw exception;
-		}*/
-		return result;
-	}
-	
-	public static void openAlertDialog(String message){
-		MessageBox box = new MessageBox(Display.getCurrent().getActiveShell(),SWT.NULL|SWT.ICON_ERROR);
-		box.setMessage(message);
-		box.setText("Fehler:");
-		box.open();
-	}
 	
 }
