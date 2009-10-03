@@ -3,7 +3,7 @@
 <repository name='file:/D:/Users/aknuth/workspace/EmbeddedUpdateSite/ - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1254567715820'/>
+    <property name='p2.timestamp' value='1254568478941'/>
   </properties>
   <references size='2'>
     <repository url='http://tomcat-starter.googlecode.com/svn/trunk/update' type='0' options='0'/>
@@ -39,8 +39,8 @@
         </instructions>
       </touchpointData>
       <licenses size='1'>
-        <license url='http://www.example.com/license'>
-          [Enter License Description here.]
+        <license>
+          This plugin is under APL 2.0
         </license>
       </licenses>
       <copyright url='http://www.example.com/copyright'>
@@ -111,8 +111,8 @@
       </requires>
       <touchpoint id='null' version='0.0.0'/>
       <licenses size='1'>
-        <license url='http://www.example.com/license'>
-          [Enter License Description here.]
+        <license>
+          This plugin is under APL 2.0
         </license>
       </licenses>
       <copyright url='http://www.example.com/copyright'>
