@@ -34,6 +34,8 @@ public class TomcatLaunchShortcut implements ILaunchShortcut  {
 			} else if (obj instanceof IResource) {
 				targetProject = ((IResource) obj).getProject();
 				configFile = (IFile) obj;
+			} else if (obj instanceof IAdaptable) {
+				targetProject = (IProject) ((IAdaptable) obj).getAdapter(IProject.class);
 			}
 
 			if (targetProject != null) {
