@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.debug.ui.launchShortcuts">
+	    <shortcut
+	        id=" org.embedded.tomcat.launch.tomcatlaunchshortcut"
+	        class=" org.embedded.tomcat.launch.TomcatLaunchShortcut"
+	        label="Tomcat Start"
+	        icon="icons/tomcat.gif"
+	        modes="run, debug">
+			  <contextualLaunch>
+			  <enablement>
+			    <with variable="selection">
+			     <count value="1"/>
+			      <iterate>
+			       <or>
+			        <and>
+			         <test property="org.eclipse.jdt.launching.isContainer"/>
+			         <test property="org.eclipse.jdt.launching.hasProjectNature" args="org.eclipse.jdt.core.javanature"/>
+			        </and>
+                    <test property="org.eclipse.debug.ui.matchesPattern" value="*.xml"/>
+			       </or>
+			      </iterate>
+			     </with>
+			  </enablement>
+			  </contextualLaunch>
+			  <configurationType
+			    id="org.eclipse.jdt.launching.localJavaApplication">
+			  </configurationType>
+	    </shortcut>
+	</extension>
+
+</plugin>

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tomcat Launcher Plug-in
-Bundle-SymbolicName: org.embedded.tomcat.launch
+Bundle-SymbolicName: org.embedded.tomcat.launch;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.embedded.tomcat.launch.Activator
 Require-Bundle: org.eclipse.ui,
