@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <description url="http://tomcat-starter.googlecode.com/svn/trunk/update">
+      This is the update site for tomcat-starter plugin
+   </description>
    <feature url="features/org.embedded.tomcat.feature_1.0.0.jar" id="org.embedded.tomcat.feature" version="1.0.0"/>
 </site>
