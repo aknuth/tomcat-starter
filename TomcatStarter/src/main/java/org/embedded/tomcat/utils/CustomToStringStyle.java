@@ -1,4 +1,4 @@
-package org.apache.tomcat.utils;
+package org.embedded.tomcat.utils;
 
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.builder.ToStringStyle;
