@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcat-config>
+    <connector>
+        <port>8080</port>
+    </connector>
+	<context>
+		<webapps>
+			<webapp>
+				<contextPath>/flug</contextPath>
+				<webAppDirectory>WebContent</webAppDirectory>
+			</webapp>
+		</webapps>
+		<sessionTimeout>30</sessionTimeout>
+		<mimeMapping key="dfdf">text/html</mimeMapping>
+	</context>
+</tomcat-config>
