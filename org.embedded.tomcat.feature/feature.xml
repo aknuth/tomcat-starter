@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.embedded.tomcat.feature"
-      label="Feature Feature"
-      version="1.0.0">
+      label="Tomcat Starter Feature"
+      version="1.0.0"
+      provider-name="org.embedded.tomcat"
+      os="linux,macosx,win32"
+      exclusive="true">
 
    <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+      This feature enables you to start your webapplication by Right Clieck --&gt; RunAs Tomcat Start
    </description>
 
    <copyright url="http://www.example.com/copyright">
       [Enter Copyright Description here.]
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license>
+      This plugin is under APL 2.0
    </license>
+
+   <url>
+      <update label="Tomcat Starter update site" url="http://tomcat-starter.googlecode.com/svn/trunk/update"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.debug.ui"/>
+   </requires>
 
    <plugin
          id="org.embedded.tomcat.launch"
