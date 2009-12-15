@@ -1,13 +1,49 @@
-#summary One-sentence summary of this page.
+#summary Howto mavenize a project for the use with tomcat-starter
 
 = Introduction =
 
-Add your content here.
+ * every projects needs a pom.xml
+ * the main parts of the pom.xml are the *project description* and the *dependency definition*
 
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * project description
+If you are just having a simple project that produces a JAR (even if it's a Web Project) from some source in src/main/java, you don’t have to customize anything.
+All you would need, in this case, is the simplest possible POM shown below. 
+{{{
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>[e.g. name of company/organisation]</groupId>
+  <artifactId>[project identifier name]</artifactId>
+  <version>0.1-SNAPSHOT</version>
+</project>
+}}} 
+
+ * dependency definition
+You will certainly have some dependencies for your project (e.g. commons-lang, spring core lib ...), which you will have to take care about.
+Have a look a the sample below for the syntax:
+{{{
+<dependency>
+	<groupId>commons-lang</groupId>
+	<artifactId>commons-lang</artifactId>
+	<version>2.3</version>
+</dependency>
+}}}
+
+If you don't know the coordinates (groupId, artifactId, version) for your needed dependency you can use the *Dependency Wizard* of the m2 plugin.
+Just do a right click on the project --> Maven --> Add Dependency --> type e.g. 'lang' for commons-lang and you will get all indexed dependencies which contains 'lang' in the coordinates.
+
+ * Version or SNAPSHOT
+All dependencies with a *-SNAPSHOT* suffix are temporary dependencies. They can vary from day to day respectively from hour to hour, depending on the build time of the project.
+All other dependencies are fixed. They will (should) never change !!
+
+ * Change the source folder location
+You probably might have a different source folder location, which you have to tell the Maven Plugin. Just add the following lines below the project description.
+{{{
+<build>
+	<sourceDirectory>source</sourceDirectory>
+	<outputDirectory>webApplication/WEB-INF/classes</outputDirectory>
+</build>
+}}}
+The sample above might be a in/out folder definition for a Web Project.
