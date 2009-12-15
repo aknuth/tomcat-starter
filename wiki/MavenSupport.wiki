@@ -9,7 +9,7 @@
 = Details =
 
  * project description
-If you are just having a simple project that produces a JAR (even if it's a Web Project) from some source in src/main/java, you don’t have to customize anything.
+If you are just having a simple project that produces a JAR (even if it's a Web Project) from some source in *src/main/java*, you don't have to customize anything.
 All you would need, in this case, is the simplest possible POM shown below. 
 {{{
 <project>
